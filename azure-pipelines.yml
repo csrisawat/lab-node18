@@ -148,8 +148,8 @@ stages:
                 printf '%s' "$val" | sudo install -m 600 -o root -g root /dev/stdin "$SEC/$name"
                 echo "   $name written"
               }
-              write_secret DB_PASSWORD "$SECRET_DB_PASSWORD"
-              write_secret API_KEY     "$SECRET_API_KEY"
+              write_secret DB_PASSWORD "${DR_DB_PASSWORD:-}"
+              write_secret API_KEY     "${DR_API_KEY:-}"
 
               echo "== 4. switch current -> this release, recreate container"
               sudo ln -sfn "$REL" "$BASE/current"
@@ -170,5 +170,7 @@ stages:
             displayName: Deploy code + config + secrets, docker compose up
             env:
               # Secret variables are never exposed to scripts unless mapped explicitly.
-              SECRET_DB_PASSWORD: $(DB_PASSWORD)
-              SECRET_API_KEY: $(API_KEY)
+              # Do NOT use a SECRET_ prefix: the task library treats SECRET_* env vars as its own
+              # secret store, loads them and removes them from the script environment.
+              DR_DB_PASSWORD: $(DB_PASSWORD)
+              DR_API_KEY: $(API_KEY)
