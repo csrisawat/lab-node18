@@ -29,7 +29,7 @@ variables:
   drHostPort: '3001'
   selfHostedPool: drlab-ec2
   # --- set these after running azure/create-azure.sh ---
-  azureWebAppName: drlab-node18-CHANGEME
+  azureWebAppName: drlab-node18-zjiav
   azureServiceConnection: sc-drlab-azure
   # ADO Library variable group holding DB_PASSWORD and API_KEY (locked, secret).
   # Plain variable group, NOT Key Vault-linked (Key Vault is assumed down in DR).
